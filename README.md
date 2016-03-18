@@ -7,6 +7,8 @@ Forgive the example screenshot showing 0 stars, watches and forks. Hopefully you
 
 The project was built in JSBin, so here's a [link](https://jsbin.com/degeruw/edit?js,output) if you want to see how it all works.
 
+[npm github-widget-js](https://www.npmjs.com/package/github-widget-js)
+
 If this module is being included as a script tag, required or imported, the object to instantiate is called GithubWigit. The constructor takes upto five arguments:
 - *the element to append the wigit
 - *github username
