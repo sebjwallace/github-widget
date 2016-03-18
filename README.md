@@ -32,3 +32,54 @@ var gistsEl = document.getElementById('gists');
 var gists = new GithubWigit(gistsEl,'sebjwallace','gists',styles,4);
 ```
 The only dependency is font-awesome, if fonts are desired for your theming.
+
+These are all the styles used for the above example.
+
+```css
+body{
+    font-family: arial;
+    font-size: 0.8em;
+    color: #333;
+    line-height: 1.5em
+  }
+
+  #repos, #gists{
+    width: 45%;
+    float: left;
+    margin: 2.5%;
+  }
+
+  .feed{
+    padding: 10px;
+    background-color: white;
+    border-bottom: 1px solid #e1e1e1;
+  }
+
+  .stats{
+    float: right;
+  }
+
+  .description{
+    width: 100%
+  }
+
+  .header, .footer{
+    padding: 10px;
+  }
+
+  .footer{
+    text-align: right;
+  }
+
+  .wigit{
+    background-color: #eee;
+    border: 1px solid #e1e1e1;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+  }
+
+  .wigit .fa{
+    padding: 0px 5px
+  }
+```
