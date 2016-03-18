@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Github Wigit</title>
+<body>
+  <div id="repos">
+    repos goes here
+  </div>
+  <div id="gists">
+    gists goes here
+  </div>
+  <script type="text/javascript" src="dist/githubWidget.min.js"></script>
+
+  <script type="text/javascript">
+
+  var styles = {
+    feed: 'feed', stats: 'stats',
+    description: 'description',
+    header: 'header', footer: 'footer',
+    wigit: 'wigit'
+  };
+
+  var reposEl = document.getElementById('repos');
+  var repos = new GithubWigit(reposEl,'sebjwallace','repos',styles,4);
+
+  var gistsEl = document.getElementById('gists');
+  var gists = new GithubWigit(gistsEl,'sebjwallace','gists',styles,4);
+
+  </script>
+
+  <style media="screen">
+  body{
+    font-family: arial;
+    font-size: 0.8em;
+    color: #333;
+    line-height: 1.5em
+  }
+
+  #repos, #gists{
+    width: 45%;
+    float: left;
+    margin: 2.5%;
+  }
+
+  .feed{
+    padding: 10px;
+    background-color: white;
+    border-bottom: 1px solid #e1e1e1;
+  }
+
+  .stats{
+    float: right;
+  }
+
+  .description{
+    width: 100%
+  }
+
+  .header, .footer{
+    padding: 10px;
+  }
+
+  .footer{
+    text-align: right;
+  }
+
+  .wigit{
+    background-color: #eee;
+    border: 1px solid #e1e1e1;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+  }
+
+  .wigit .fa{
+    padding: 0px 5px
+  }
+  </style>
+</body>
+</html>
