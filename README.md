@@ -7,17 +7,43 @@ Forgive the example screenshot showing 0 stars, watches and forks. Hopefully you
 
 The project was built in JSBin, so here's a [link](https://jsbin.com/degeruw/edit?js,output) if you want to see how it all works.
 
+The only dependency is font-awesome, if fonts are desired for your theming.
 [npm github-widget-js](https://www.npmjs.com/package/github-widget-js)
 
-If this module is being included as a script tag, required or imported, the object to instantiate is called GithubWigit. The constructor takes upto five arguments:
-- *the element to append the wigit
-- *github username
-- *the type of feed: repos or gists
-- object of styles to inject
-- limit of repos/gists to render
+To instantiate a wigit object, call a new GithubWigit. For a profile wigit just supply the Github profile username. For a repo or gist wigit you'll need to supply username, repos/gists, and the limit of repos/gists to display. Then mount the wigit to an empty element.
 
 ```javascript
-// values reference class names
+var profile = new GithubWidget('sebjwallace');
+var profileEl = document.getElementById('profile');
+profile.mount(profileEl);
+
+var repos = new GithubWidget('sebjwallace','repos',4);
+var reposEl = document.getElementById('repos');
+repos.mount(reposEl);
+
+var gists = new GithubWidget('sebjwallace','gists',4);
+var gistsEl = document.getElementById('gists');
+gists.mount(gistsEl);
+```
+
+Will produce:
+
+![screenshot](https://raw.githubusercontent.com/sebjwallace/github-widget/master/screenshot2.png)
+
+Its important to declare styles on the elements you'll mount to.
+
+```css
+#repos, #gists, #profile{
+  height: 400px;
+  width: 30%;
+  float: left;
+  margin: 1%;
+}
+```
+
+Custom styles can be injected into the wigit.
+
+```javascript
 var styles = {
   feed: 'feed', stats: 'stats',
   description: 'description',
@@ -25,61 +51,16 @@ var styles = {
   wigit: 'wigit'
 };
 
+var repos = new GithubWidget('sebjwallace','repos',4);
 var reposEl = document.getElementById('repos');
-var repos = new GithubWigit(reposEl,'sebjwallace','repos',styles,4);
+repos.setStyles(styles);
+repos.mount(reposEl);
 
+var gists = new GithubWidget('sebjwallace','gists',4);
 var gistsEl = document.getElementById('gists');
-var gists = new GithubWigit(gistsEl,'sebjwallace','gists',styles,4);
+gists.setStyles(styles);
+gists.mount(gistsEl);
 ```
-The only dependency is font-awesome, if fonts are desired for your theming.
+Will result:
 
-These are all the styles used for the above example.
-
-```css
-body{
-    font-family: arial;
-    font-size: 0.8em;
-    color: #333;
-    line-height: 1.5em
-  }
-
-  #repos, #gists{
-    width: 45%;
-    float: left;
-    margin: 2.5%;
-  }
-
-  .feed{
-    padding: 10px;
-    background-color: white;
-    border-bottom: 1px solid #e1e1e1;
-  }
-
-  .stats{
-    float: right;
-  }
-
-  .description{
-    width: 100%
-  }
-
-  .header, .footer{
-    padding: 10px;
-  }
-
-  .footer{
-    text-align: right;
-  }
-
-  .wigit{
-    background-color: #eee;
-    border: 1px solid #e1e1e1;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
-  }
-
-  .wigit .fa{
-    padding: 0px 5px
-  }
-```
+![screenshot](https://raw.githubusercontent.com/sebjwallace/github-widget/master/screenshot3.png)
