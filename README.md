@@ -41,7 +41,7 @@ Its important to declare styles on the elements you'll mount to.
 }
 ```
 
-Custom styles can be injected into the wigit.
+Custom styles can be injected into the wigit. The values in the styles object literal are the class names that'll be hooked up to wigit.
 
 ```javascript
 var styles = {
