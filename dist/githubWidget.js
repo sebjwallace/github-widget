@@ -17,7 +17,7 @@ var Styles = (function () {
   function Styles() {
     _classCallCheck(this, Styles);
 
-    this.styles = '.ghw-feed{padding: 10px;background-color: white;border-bottom: 1px solid #e1e1e1;}.ghw-stats{float: right;}.ghw-description{width: 100%}.ghw-header, .ghw-footer{padding: 10px;}.ghw-footer{text-align: right;}.ghw-wigit{background-color: #eee;border: 1px solid #e1e1e1;-moz-border-radius: 4px;-webkit-border-radius: 4px;border-radius: 4px;}.ghw-wigit .fa{padding: 0px 5px}';
+    this.styles = '.ghw-feed{padding: 10px;background-color: white;border-bottom: 1px solid #e1e1e1;}.ghw-stats{float: right;}.ghw-description{width: 100%}.ghw-header, .ghw-footer{padding: 10px;}.ghw-footer{text-align: right;}.ghw-wigit, .ghw-wigit img{background-color: #eee;border: 1px solid #e1e1e1;-moz-border-radius: 4px;-webkit-border-radius: 4px;border-radius: 4px;height:100%}.ghw-wigit .fa{padding: 0px 5px}.ghw-wigit img{width:100%}';
   }
 
   _createClass(Styles, [{
@@ -33,12 +33,12 @@ var Styles = (function () {
 })();
 
 var GithubConnection = (function () {
-  function GithubConnection(username, option, callback) {
+  function GithubConnection(username, option) {
     _classCallCheck(this, GithubConnection);
 
     this.username = username;
     this.option = option;
-    this.callback = callback;
+    this.callback = null;
     this.then = this.then;
   }
 
@@ -55,8 +55,8 @@ var GithubConnection = (function () {
       };
 
       var url = "https://api.github.com/users/";
-      url += this.username + "/";
-      url += this.option + "?sort=pushed";
+      url += this.username;
+      if (this.option) url += "/" + this.option + "?sort=pushed";
 
       req.open("GET", url, true);
       req.send();
@@ -73,9 +73,9 @@ var GithubConnection = (function () {
 
 ;
 
-var GithubFeed = (function () {
-  function GithubFeed(limit) {
-    _classCallCheck(this, GithubFeed);
+var GithubProjects = (function () {
+  function GithubProjects(limit) {
+    _classCallCheck(this, GithubProjects);
 
     this.asElement = this.asElement.bind(this);
     this.asHTML = this.asHTML.bind(this);
@@ -92,7 +92,7 @@ var GithubFeed = (function () {
     };
   }
 
-  _createClass(GithubFeed, [{
+  _createClass(GithubProjects, [{
     key: 'target',
     value: function target(el) {
       this.element = el;
@@ -122,11 +122,11 @@ var GithubFeed = (function () {
     }
   }]);
 
-  return GithubFeed;
+  return GithubProjects;
 })();
 
-var Repo = (function (_GithubFeed) {
-  _inherits(Repo, _GithubFeed);
+var Repo = (function (_GithubProjects) {
+  _inherits(Repo, _GithubProjects);
 
   function Repo(limit) {
     _classCallCheck(this, Repo);
@@ -153,10 +153,10 @@ var Repo = (function (_GithubFeed) {
   }]);
 
   return Repo;
-})(GithubFeed);
+})(GithubProjects);
 
-var Gist = (function (_GithubFeed2) {
-  _inherits(Gist, _GithubFeed2);
+var Gist = (function (_GithubProjects2) {
+  _inherits(Gist, _GithubProjects2);
 
   function Gist(limit) {
     _classCallCheck(this, Gist);
@@ -183,13 +183,41 @@ var Gist = (function (_GithubFeed2) {
   }]);
 
   return Gist;
-})(GithubFeed);
+})(GithubProjects);
+
+var Profile = (function (_GithubProjects3) {
+  _inherits(Profile, _GithubProjects3);
+
+  function Profile() {
+    _classCallCheck(this, Profile);
+
+    _get(Object.getPrototypeOf(Profile.prototype), 'constructor', this).call(this);
+  }
+
+  _createClass(Profile, [{
+    key: 'asHTML',
+    value: function asHTML(json) {
+      var el = this.buildElement;
+      var html = ["<div class='" + this.styles.wigit + "'>", el('div', this.styles.header, [el('i', 'fa fa-github', ''), el('span', '', json.login)]), el('div', this.styles.feed, ["<img src='" + json.avatar_url + "'>"]), el('div', this.styles.feed, [el('a', '', json.name, ['href', json.html_url]), el('div', '', json.location, '')]), el('div', this.styles.feed, [el('div', '', [el('i', 'fa fa-book', ' Repositories: '), json.public_repos]), el('div', '', [el('i', 'fa fa-users', ' Followers: '), json.followers])]), "</div>"];
+      return html.join('');
+    }
+  }]);
+
+  return Profile;
+})(GithubProjects);
 
 var GithubWidget = (function () {
   function GithubWidget(username, type, limit) {
     _classCallCheck(this, GithubWidget);
 
-    if (type == "repos") this.feed = new Repo(limit);else this.feed = new Gist(limit);
+    switch (type) {
+      case "repos":
+        this.feed = new Repo(limit);break;
+      case "gists":
+        this.feed = new Gist(limit);break;
+      default:
+        this.feed = new Profile();
+    }
     this.connection = new GithubConnection(username, type);
     this.styles = new Styles().mount();
   }

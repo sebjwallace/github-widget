@@ -1,6 +1,6 @@
 class Styles{
   constructor(){
-    this.styles = '.ghw-feed{padding: 10px;background-color: white;border-bottom: 1px solid #e1e1e1;}.ghw-stats{float: right;}.ghw-description{width: 100%}.ghw-header, .ghw-footer{padding: 10px;}.ghw-footer{text-align: right;}.ghw-wigit{background-color: #eee;border: 1px solid #e1e1e1;-moz-border-radius: 4px;-webkit-border-radius: 4px;border-radius: 4px;}.ghw-wigit .fa{padding: 0px 5px}';
+    this.styles = '.ghw-feed{padding: 10px;background-color: white;border-bottom: 1px solid #e1e1e1;}.ghw-stats{float: right;}.ghw-description{width: 100%}.ghw-header, .ghw-footer{padding: 10px;}.ghw-footer{text-align: right;}.ghw-wigit, .ghw-wigit img{background-color: #eee;border: 1px solid #e1e1e1;-moz-border-radius: 4px;-webkit-border-radius: 4px;border-radius: 4px;height:100%}.ghw-wigit .fa{padding: 0px 5px}.ghw-wigit img{width:100%}';
   }
   mount(){
     const tag = document.createElement('style');
@@ -11,10 +11,10 @@ class Styles{
 
 class GithubConnection{
 
-  constructor(username,option,callback){
+  constructor(username,option){
     this.username = username;
     this.option = option;
-    this.callback = callback;
+    this.callback = null;
     this.then = this.then;
   }
   fetch(){
@@ -25,8 +25,9 @@ class GithubConnection{
       };
 
       let url = "https://api.github.com/users/";
-      url += this.username + "/";
-      url += this.option + "?sort=pushed";
+      url += this.username;
+      if(this.option)
+        url += "/" + this.option + "?sort=pushed";
 
       req.open("GET",url,true);
       req.send();
@@ -36,7 +37,7 @@ class GithubConnection{
   }
 };
 
-class GithubFeed{
+class GithubProjects{
 
   constructor(limit){
       this.asElement = this.asElement.bind(this);
@@ -79,7 +80,7 @@ class GithubFeed{
   }
 }
 
-class Repo extends GithubFeed{
+class Repo extends GithubProjects{
 
   constructor(limit){
     super(limit);
@@ -116,7 +117,7 @@ class Repo extends GithubFeed{
   }
 }
 
-class Gist extends GithubFeed{
+class Gist extends GithubProjects{
 
   constructor(limit){
     super(limit);
@@ -145,10 +146,49 @@ class Gist extends GithubFeed{
   }
 }
 
+class Profile extends GithubProjects{
+    constructor(){
+      super();
+    }
+    asHTML(json){
+    const el = this.buildElement;
+    let html = [
+        "<div class='"+this.styles.wigit+"'>",
+        el('div',this.styles.header, [
+           el('i','fa fa-github',''),
+           el('span','',json.login)
+        ]),
+        el('div',this.styles.feed,[
+          "<img src='"+ json.avatar_url +"'>"
+        ]),
+        el('div',this.styles.feed,[
+          el('a','',json.name,['href',json.html_url]),
+          el('div','',json.location,''),
+        ]),
+        el('div',this.styles.feed,[
+          el('div','',[
+            el('i','fa fa-book',' Repositories: '),
+            json.public_repos
+          ]),
+          el('div','',[
+            el('i','fa fa-users',' Followers: '),
+            json.followers
+          ])
+        ]),
+        "</div>"
+    ];
+    return html.join('');
+  }
+
+}
+
 export default class GithubWidget{
     constructor(username,type,limit){
-      if(type == "repos") this.feed = new Repo(limit);
-      else this.feed = new Gist(limit);
+      switch(type){
+          case "repos": this.feed = new Repo(limit); break;
+          case "gists": this.feed = new Gist(limit); break;
+          default: this.feed = new Profile();
+      }
       this.connection = new GithubConnection(username,type);
       this.styles = new Styles().mount();
     }
