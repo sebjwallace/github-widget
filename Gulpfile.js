@@ -18,17 +18,17 @@ gulp.task('lib', function() {
 
 gulp.task('dev', function() {
   return browserify('./src/githubWidget.js',{
-        standalone: 'GithubWigit'
+        standalone: 'GithubWidget'
     })
     .transform(babelify)
     .bundle()
-    .pipe(source('githubWigit.js'))
+    .pipe(source('githubWidget.js'))
     .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('dist', function() {
   return browserify('./src/githubWidget.js',{
-        standalone: 'GithubWigit'
+        standalone: 'GithubWidget'
     })
     .transform(babelify)
     .bundle()

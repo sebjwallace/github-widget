@@ -1,6 +1,6 @@
 {
-  "name": "github-widget",
-  "version": "1.0.0",
+  "name": "github-widget-js",
+  "version": "1.0.1",
   "description": "Display repos and gists on your website",
   "main": "index.js",
   "scripts": {
