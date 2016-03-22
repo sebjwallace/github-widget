@@ -17,7 +17,7 @@ var Styles = (function () {
   function Styles() {
     _classCallCheck(this, Styles);
 
-    this.styles = '.ghw-feed{padding: 10px;background-color: white;border-bottom: 1px solid #e1e1e1;}.ghw-stats{float: right;}.ghw-description{width: 100%}.ghw-header, .ghw-footer{padding: 10px;}.ghw-footer{text-align: right;}.ghw-wigit, .ghw-wigit img{background-color: #eee;border: 1px solid #e1e1e1;-moz-border-radius: 4px;-webkit-border-radius: 4px;border-radius: 4px;height:100%}.ghw-wigit .fa{padding: 0px 5px}.ghw-wigit img{width:100%}';
+    this.styles = '.ghw-feed{padding: 10px;background-color: white;border-bottom: 1px solid #e1e1e1;}.ghw-stats{float: right;}.ghw-desc{padding-top:10px}.ghw-header, .ghw-footer{padding: 10px;}.ghw-footer{text-align: right;}.ghw-wigit, .ghw-wigit img{background-color: #eee;border: 1px solid #e1e1e1;-moz-border-radius: 4px;-webkit-border-radius: 4px;border-radius: 4px;height:100%}.ghw-wigit .fa{padding: 0px 5px}.ghw-wigit img{width:100%}';
   }
 
   _createClass(Styles, [{
@@ -174,7 +174,7 @@ var Gist = (function (_GithubProjects2) {
       html.push(el('div', this.styles.header, el('i', 'fa fa-bookmark-o', '') + 'My Github gists'));
       json.map(function (item, i) {
         if (i >= _this3.limit) return;
-        html.push([el('div', _this3.styles.feed, [el('a', _this3.styles.title, Object.keys(item.files)[0], ['href', item.url]), el('div', _this3.styles.description, item.description)])].join(''));
+        html.push([el('div', _this3.styles.feed, [el('a', _this3.styles.title, Object.keys(item.files)[0], ['href', item.url]), el('div', _this3.styles.desc, item.description)])].join(''));
       });
       html.push(el('div', this.styles.footer, el('a', 'fa fa-github', json[0].owner.login, ['href', json[0].owner.url])));
       html.push('</div>');

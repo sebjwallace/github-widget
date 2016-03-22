@@ -1,6 +1,6 @@
 class Styles{
   constructor(){
-    this.styles = '.ghw-feed{padding: 10px;background-color: white;border-bottom: 1px solid #e1e1e1;}.ghw-stats{float: right;}.ghw-description{width: 100%}.ghw-header, .ghw-footer{padding: 10px;}.ghw-footer{text-align: right;}.ghw-wigit, .ghw-wigit img{background-color: #eee;border: 1px solid #e1e1e1;-moz-border-radius: 4px;-webkit-border-radius: 4px;border-radius: 4px;height:100%}.ghw-wigit .fa{padding: 0px 5px}.ghw-wigit img{width:100%}';
+    this.styles = '.ghw-feed{padding: 10px;background-color: white;border-bottom: 1px solid #e1e1e1;}.ghw-stats{float: right;}.ghw-desc{padding-top:10px}.ghw-header, .ghw-footer{padding: 10px;}.ghw-footer{text-align: right;}.ghw-wigit, .ghw-wigit img{background-color: #eee;border: 1px solid #e1e1e1;-moz-border-radius: 4px;-webkit-border-radius: 4px;border-radius: 4px;height:100%}.ghw-wigit .fa{padding: 0px 5px}.ghw-wigit img{width:100%}';
   }
   mount(){
     const tag = document.createElement('style');
@@ -134,7 +134,7 @@ class Gist extends GithubProjects{
       html.push([
         el('div',this.styles.feed,[
           el('a',this.styles.title,Object.keys(item.files)[0],['href',item.url]),
-          el('div',this.styles.description,item.description)
+          el('div',this.styles.desc,item.description)
         ])
       ].join(''));
     });
